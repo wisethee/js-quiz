@@ -176,7 +176,7 @@ const initialsHandler = (event) => {
   if (value) {
     killSwitch = false;
     errorElement.classList.add("hide");
-    state.initials = value;
+    state.initials = value.toUpperCase();
   }
 };
 
@@ -187,7 +187,7 @@ const submitHandler = () => {
     return;
   }
   saveScore();
-  globalThis.location.replace("./highscores.html");
+  globalThis.location.href = "./highscores.html";
 };
 
 /** Event Listeners */
