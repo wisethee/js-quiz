@@ -89,8 +89,8 @@ const showFeedback = () => {
 
 /** Check Answer */
 const checkAnswer = (id, answer) => {
-  const correctAudio = new Audio("assets/sfx/incorrect.wav");
-  const incorrectAudio = new Audio("assets/sfx/correct.wav");
+  const correctAudio = new Audio("assets/sfx/correct.wav");
+  const incorrectAudio = new Audio("assets/sfx/incorrect.wav");
   showFeedback();
   if (answer === Number(id)) {
     feedbackElement.innerHTML = "correct";
@@ -115,6 +115,8 @@ const displayScore = () => {
 const saveScore = () => {
   currentHighScore.initials = state.initials;
   currentHighScore.score = state.score;
+
+  console.log(state);
 
   if (!localStorage.getItem("highScores")) {
     localStorage.setItem("highScores", JSON.stringify([currentHighScore]));
