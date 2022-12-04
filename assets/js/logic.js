@@ -89,12 +89,16 @@ const showFeedback = () => {
 
 /** Check Answer */
 const checkAnswer = (id, answer) => {
+  const correctAudio = new Audio("assets/sfx/incorrect.wav");
+  const incorrectAudio = new Audio("assets/sfx/correct.wav");
   showFeedback();
   if (answer === Number(id)) {
     feedbackElement.innerHTML = "correct";
+    correctAudio.play();
     state.correctAnswers++;
   } else {
-    feedbackElement.innerHTML = "wrong";
+    feedbackElement.innerHTML = "incorrect";
+    incorrectAudio.play();
     count = count - countCharge;
     state.wrongAnswers++;
   }
