@@ -110,3 +110,10 @@ li:nth-child(odd) {
     background-color: rgba(0, 0, 0, 0.08);
     color: black;
 }
+
+.error {
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 1.2;
+  color: red;
+}

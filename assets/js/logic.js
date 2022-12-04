@@ -3,18 +3,35 @@ const startScreenElement = document.getElementById("start-screen");
 const questionsElement = document.getElementById("questions");
 const endScreenElement = document.getElementById("end-screen");
 const feedbackElement = document.getElementById("feedback");
+const finalScoreElement = document.getElementById("final-score");
 
 const questionTitle = document.getElementById("question-title");
 const questionChoices = document.getElementById("question-choices");
 
 const timeElement = document.getElementById("time");
 const startElement = document.getElementById("start");
+const submitElement = document.getElementById("submit");
+const initialsElement = document.getElementById("initials");
+
+const errorElement = document.getElementById("error");
 
 /** Inputs */
-let count = 6;
+let count = 60;
+const countCharge = 3;
 
 let questionsCount = 0;
 const questionsLength = questions.length;
+
+let state = {
+  initials: "",
+  correctAnswers: 0,
+  wrongAnswers: 0,
+  score: 0,
+};
+
+let currentHighScore = {};
+
+let killSwitch = true;
 
 /** Init Screen */
 const init = () => {
@@ -29,6 +46,12 @@ const renderPageSection = (elementToHide, elementToRender) => {
   elementToRender.classList.remove("hide");
 };
 
+/** Clear timer */
+const clearTimer = () => {
+  count = 0;
+  timeElement.innerHTML = count;
+};
+
 /** End Game */
 const endGame = () => {
   renderPageSection(questionsElement, endScreenElement);
@@ -40,8 +63,9 @@ const startTimer = () => {
     count--;
     timeElement.innerHTML = count;
 
-    if (count === 0) {
+    if (count === 0 || count < 0) {
       endGame();
+      clearTimer();
       clearInterval(interval);
       return;
     }
@@ -66,11 +90,34 @@ const showFeedback = () => {
 /** Check Answer */
 const checkAnswer = (id, answer) => {
   showFeedback();
-  console.log(feedbackElement);
   if (answer === Number(id)) {
     feedbackElement.innerHTML = "correct";
+    state.correctAnswers++;
   } else {
     feedbackElement.innerHTML = "wrong";
+    count = count - countCharge;
+    state.wrongAnswers++;
+  }
+};
+
+/** Display Score */
+const displayScore = () => {
+  const finalScore = state.correctAnswers * 3;
+  finalScoreElement.innerHTML = finalScore;
+  state.score = finalScore;
+};
+
+/** High Score */
+const saveScore = () => {
+  currentHighScore.initials = state.initials;
+  currentHighScore.score = state.score;
+
+  if (!localStorage.getItem("highScores")) {
+    localStorage.setItem("highScores", JSON.stringify([currentHighScore]));
+  } else {
+    let highScores = JSON.parse(localStorage.getItem("highScores"));
+    highScores.push(currentHighScore);
+    localStorage.setItem("highScores", JSON.stringify(highScores));
   }
 };
 
@@ -98,6 +145,8 @@ const buildQuestion = (question) => {
         } else {
           renderPageSection(questionsElement, endScreenElement);
           hideFeedback();
+          clearTimer();
+          displayScore();
         }
       }, 300);
     });
@@ -118,7 +167,29 @@ const renderQuestions = () => {
 const startHandler = () => {
   startTimer();
   renderQuestions();
+  displayScore();
+};
+
+/** Initials handler */
+const initialsHandler = (event) => {
+  const { value } = event.target;
+  if (value) {
+    killSwitch = false;
+    errorElement.classList.add("hide");
+    state.initials = value;
+  }
+};
+
+/** Submit score */
+const submitHandler = () => {
+  if (killSwitch) {
+    errorElement.classList.remove("hide");
+    return;
+  }
+  saveScore();
 };
 
 /** Event Listeners */
 startElement.addEventListener("click", startHandler);
+initialsElement.addEventListener("keyup", initialsHandler);
+submitElement.addEventListener("click", submitHandler);
