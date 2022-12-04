@@ -187,6 +187,7 @@ const submitHandler = () => {
     return;
   }
   saveScore();
+  globalThis.location.replace("./highscores.html");
 };
 
 /** Event Listeners */
