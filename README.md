@@ -1,4 +1,6 @@
 # :file_folder: js-quiz
+## Project Description
+An interactive, timed JavaScript quiz that stores a high score in local storage.
 
 [Demo URL](https://wisethee.github.io/js-quiz/)
 
