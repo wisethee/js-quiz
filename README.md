@@ -1,6 +1,6 @@
 # :file_folder: js-quiz
 
-[Demo URL](https://github.com/wisethee/js-quiz)
+[Demo URL](https://wisethee.github.io/js-quiz/)
 
 ![Screenshot](https://github.com/wisethee/js-quiz/blob/main/assets/images/cover.jpg?raw=true)
 
