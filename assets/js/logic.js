@@ -116,8 +116,6 @@ const saveScore = () => {
   currentHighScore.initials = state.initials;
   currentHighScore.score = state.score;
 
-  console.log(state);
-
   if (!localStorage.getItem("highScores")) {
     localStorage.setItem("highScores", JSON.stringify([currentHighScore]));
   } else {
